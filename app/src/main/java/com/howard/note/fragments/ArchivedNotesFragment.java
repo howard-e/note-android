@@ -18,7 +18,7 @@ public class ArchivedNotesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_archived_notes, container, false);
+        View rootView = inflater.inflate(R.layout.recycler_view, container, false);
 
         return rootView;
     }

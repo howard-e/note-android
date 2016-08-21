@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="string_archived_notes">Archived Notes</string>
     <string name="string_current_notes">Current Notes</string>
+    <string name="last_edited_title">Last edited:</string>
+    <string name="action_search">Search</string>
 </resources>

@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupTabIcons() {
+        // Simple non-custom tab title
         // mTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         // mTabLayout.getTabAt(1).setIcon(tabIcons[1]);
 
