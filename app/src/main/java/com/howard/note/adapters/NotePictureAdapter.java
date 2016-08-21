@@ -43,9 +43,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
     @Override
     public void onBindViewHolder(NoteViewHolder holder, int position) {
         final Note note = noteArrayList.get(position);
-        holder.mNoteText.setText(note.getText());
-        holder.mNotePicture.setImageResource(note.getPicture());
-        holder.mNoteLastEdit.setText(note.getLastEdit());
+        holder.bind(note);
 
         holder.mNoteEditButton.setOnClickListener(clickListener);
         holder.mNoteArchiveButton.setOnClickListener(clickListener);
@@ -54,6 +52,12 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
     @Override
     public int getItemCount() {
         return noteArrayList.size();
+    }
+
+    // Need this to differentiate between types of notes, ie: p, t, v, l
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder {
@@ -70,9 +74,15 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
         @BindView(R.id.note_archive_button)
         ImageView mNoteArchiveButton;
 
-        public NoteViewHolder(View itemView) {
+        NoteViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void bind(Note note) {
+            mNoteText.setText(note.getText());
+            mNotePicture.setImageResource(note.getPicture());
+            mNoteLastEdit.setText(note.getLastEdit());
         }
     }
 
@@ -89,5 +99,59 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
                     break;
             }
         }
+    }
+
+    /**
+     * Filter Logic
+     **/
+    public void animateTo(ArrayList<Note> models) {
+        applyAndAnimateRemovals(models);
+        applyAndAnimateAdditions(models);
+        applyAndAnimateMovedItems(models);
+    }
+
+    private void applyAndAnimateRemovals(ArrayList<Note> newModels) {
+        for (int i = noteArrayList.size() - 1; i >= 0; i--) {
+            final Note model = noteArrayList.get(i);
+            if (!newModels.contains(model)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(ArrayList<Note> newModels) {
+        for (int i = 0, count = newModels.size(); i < count; i++) {
+            final Note model = newModels.get(i);
+            if (!noteArrayList.contains(model)) {
+                addItem(i, model);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(ArrayList<Note> newModels) {
+        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+            final Note model = newModels.get(toPosition);
+            final int fromPosition = noteArrayList.indexOf(model);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    private Note removeItem(int position) {
+        final Note model = noteArrayList.remove(position);
+        notifyItemRemoved(position);
+        return model;
+    }
+
+    private void addItem(int position, Note model) {
+        noteArrayList.add(position, model);
+        notifyItemInserted(position);
+    }
+
+    private void moveItem(int fromPosition, int toPosition) {
+        final Note model = noteArrayList.remove(fromPosition);
+        noteArrayList.add(toPosition, model);
+        notifyItemMoved(fromPosition, toPosition);
     }
 }
