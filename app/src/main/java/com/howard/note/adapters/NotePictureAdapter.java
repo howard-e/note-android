@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.howard.note.R;
 import com.howard.note.models.Note;
 import com.howard.note.utils.Constants;
+import com.leocardz.link.preview.library.TextCrawler;
 
 import java.util.ArrayList;
 
@@ -31,9 +33,9 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private ArrayList<Note> noteArrayList;
-
     private ClickListener clickListener;
 
+    private TextCrawler textCrawler;
     private char noteType;
 
     public NotePictureAdapter(Context context, ArrayList<Note> noteArrayList) {
@@ -48,13 +50,13 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (noteType) {
             case Constants.NOTE_TEXT:
-                return new TextNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_TEXT, parent, false));
+                return new TextNoteViewHolder(inflater.inflate(LAYOUT_NOTE_TEXT, parent, false));
             case Constants.NOTE_PICTURE:
-                return new PictureNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_PICTURE, parent, false));
+                return new PictureNoteViewHolder(inflater.inflate(LAYOUT_NOTE_PICTURE, parent, false));
             case Constants.NOTE_LINK:
-                return new LinkNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_LINK, parent, false));
+                return new LinkNoteViewHolder(inflater.inflate(LAYOUT_NOTE_LINK, parent, false));
             case Constants.NOTE_VIDEO:
-                return new VideoNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_VIDEO, parent, false));
+                return new VideoNoteViewHolder(inflater.inflate(LAYOUT_NOTE_VIDEO, parent, false));
         }
         // TODO: Ever a chance to reach null? ~When type is null for note type. Evaluate what to do in that scenario
         return null;
@@ -62,20 +64,24 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (noteType == 't') {
+        if (noteType == Constants.NOTE_TEXT) {
             TextNoteViewHolder mHolder = (TextNoteViewHolder) holder;
             final Note note = noteArrayList.get(position);
             mHolder.bind(note);
 
             mHolder.mNoteEditButton.setOnClickListener(clickListener);
             mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
-        } else if (noteType == 'p') {
+        } else if (noteType == Constants.NOTE_PICTURE) {
             PictureNoteViewHolder mHolder = (PictureNoteViewHolder) holder;
             final Note note = noteArrayList.get(position);
             mHolder.bind(note);
 
             mHolder.mNoteEditButton.setOnClickListener(clickListener);
             mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
+        } else if (noteType == Constants.NOTE_LINK) {
+            LinkNoteViewHolder mHolder = (LinkNoteViewHolder) holder;
+            final Note note = noteArrayList.get(position);
+            mHolder.bind(note);
         }
     }
 
@@ -140,9 +146,28 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
 
     class LinkNoteViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.info_wrap)
+        LinearLayout infoWrap;
+        @BindView(R.id.post_content)
+        TextView contentTextView;
+        @BindView(R.id.image_post)
+        ImageView imageView;
+        @BindView(R.id.title)
+        TextView titleTextView;
+
+        @BindView(R.id.url)
+        TextView urlTextView;
+        @BindView(R.id.description)
+        TextView descriptionTextView;
+
         LinkNoteViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void bind(Note note) {
+            contentTextView.setText(note.getText());
+
         }
     }
 

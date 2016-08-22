@@ -20,6 +20,11 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+    maven { url 'https://github.com/leonardocardoso/mvn-repo/raw/master/maven-deploy' }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -34,4 +39,7 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
+    compile 'org.jsoup:jsoup:1.8.3' // required for link-preview
+    compile 'com.leocardz:link-preview:1.2.1@aar'
 }
