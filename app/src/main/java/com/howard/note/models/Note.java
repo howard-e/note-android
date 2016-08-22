@@ -21,6 +21,16 @@ public class Note {
         this.type = type;
     }
 
+    // Accounting for note of text type
+
+
+    public Note(String id, String text, String lastEdit, char type) {
+        this.id = id;
+        this.text = text;
+        this.lastEdit = lastEdit;
+        this.type = type;
+    }
+
     public String getId() {
         return id;
     }

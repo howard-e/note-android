@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.howard.note.R;
 import com.howard.note.models.Note;
+import com.howard.note.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -21,12 +22,19 @@ import butterknife.ButterKnife;
  * @author Howard.
  */
 
-public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.NoteViewHolder> {
+public class NotePictureAdapter extends RecyclerView.Adapter {
+
+    private final static int LAYOUT_NOTE_TEXT = R.layout.item_note_text;
+    private final static int LAYOUT_NOTE_PICTURE = R.layout.item_note_picture;
+    private final static int LAYOUT_NOTE_LINK = R.layout.item_note_link;
+    private final static int LAYOUT_NOTE_VIDEO = R.layout.item_note_video;
 
     private Context context;
     private ArrayList<Note> noteArrayList;
 
     private ClickListener clickListener;
+
+    private char noteType;
 
     public NotePictureAdapter(Context context, ArrayList<Note> noteArrayList) {
         this.context = context;
@@ -36,17 +44,39 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
     }
 
     @Override
-    public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_picture, parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        switch (noteType) {
+            case Constants.NOTE_TEXT:
+                return new TextNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_TEXT, parent, false));
+            case Constants.NOTE_PICTURE:
+                return new PictureNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_PICTURE, parent, false));
+            case Constants.NOTE_LINK:
+                return new LinkNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_LINK, parent, false));
+            case Constants.NOTE_VIDEO:
+                return new VideoNoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(LAYOUT_NOTE_VIDEO, parent, false));
+        }
+        // TODO: Ever a chance to reach null? ~When type is null for note type. Evaluate what to do in that scenario
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(NoteViewHolder holder, int position) {
-        final Note note = noteArrayList.get(position);
-        holder.bind(note);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (noteType == 't') {
+            TextNoteViewHolder mHolder = (TextNoteViewHolder) holder;
+            final Note note = noteArrayList.get(position);
+            mHolder.bind(note);
 
-        holder.mNoteEditButton.setOnClickListener(clickListener);
-        holder.mNoteArchiveButton.setOnClickListener(clickListener);
+            mHolder.mNoteEditButton.setOnClickListener(clickListener);
+            mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
+        } else if (noteType == 'p') {
+            PictureNoteViewHolder mHolder = (PictureNoteViewHolder) holder;
+            final Note note = noteArrayList.get(position);
+            mHolder.bind(note);
+
+            mHolder.mNoteEditButton.setOnClickListener(clickListener);
+            mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
+        }
     }
 
     @Override
@@ -57,16 +87,38 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
     // Need this to differentiate between types of notes, ie: p, t, v, l
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        noteType = noteArrayList.get(position).getType();
+        return position;
     }
 
-    class NoteViewHolder extends RecyclerView.ViewHolder {
+    class TextNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.note_text)
         TextView mNoteText;
         @BindView(R.id.note_last_edit)
         TextView mNoteLastEdit;
+        @BindView(R.id.note_edit_button)
+        ImageView mNoteEditButton;
+        @BindView(R.id.note_archive_button)
+        ImageView mNoteArchiveButton;
 
+        TextNoteViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        void bind(Note note) {
+            mNoteText.setText(note.getText());
+            mNoteLastEdit.setText(note.getLastEdit());
+        }
+    }
+
+    class PictureNoteViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.note_text)
+        TextView mNoteText;
+        @BindView(R.id.note_last_edit)
+        TextView mNoteLastEdit;
         @BindView(R.id.note_picture)
         ImageView mNotePicture;
         @BindView(R.id.note_edit_button)
@@ -74,7 +126,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
         @BindView(R.id.note_archive_button)
         ImageView mNoteArchiveButton;
 
-        NoteViewHolder(View itemView) {
+        PictureNoteViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -83,6 +135,22 @@ public class NotePictureAdapter extends RecyclerView.Adapter<NotePictureAdapter.
             mNoteText.setText(note.getText());
             mNotePicture.setImageResource(note.getPicture());
             mNoteLastEdit.setText(note.getLastEdit());
+        }
+    }
+
+    class LinkNoteViewHolder extends RecyclerView.ViewHolder {
+
+        LinkNoteViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class VideoNoteViewHolder extends RecyclerView.ViewHolder {
+
+        VideoNoteViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
