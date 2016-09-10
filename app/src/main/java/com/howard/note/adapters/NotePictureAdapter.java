@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.howard.note.R;
 import com.howard.note.models.Note;
 import com.howard.note.utils.Constants;
-import com.leocardz.link.preview.library.TextCrawler;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,6 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
     private ArrayList<Note> noteArrayList;
     private ClickListener clickListener;
 
-    private TextCrawler textCrawler;
     private char noteType;
 
     public NotePictureAdapter(Context context, ArrayList<Note> noteArrayList) {
@@ -97,7 +95,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         return position;
     }
 
-    class TextNoteViewHolder extends RecyclerView.ViewHolder {
+    private class TextNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.note_text)
         TextView mNoteText;
@@ -119,7 +117,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class PictureNoteViewHolder extends RecyclerView.ViewHolder {
+    private class PictureNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.note_text)
         TextView mNoteText;
@@ -144,7 +142,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class LinkNoteViewHolder extends RecyclerView.ViewHolder {
+    private class LinkNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.info_wrap)
         LinearLayout infoWrap;
@@ -167,11 +165,10 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
 
         void bind(Note note) {
             contentTextView.setText(note.getText());
-
         }
     }
 
-    class VideoNoteViewHolder extends RecyclerView.ViewHolder {
+    private class VideoNoteViewHolder extends RecyclerView.ViewHolder {
 
         VideoNoteViewHolder(View itemView) {
             super(itemView);
@@ -196,6 +193,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
 
     /**
      * Filter Logic
+     * [START]
      **/
     public void animateTo(ArrayList<Note> models) {
         applyAndAnimateRemovals(models);
@@ -247,4 +245,8 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         noteArrayList.add(toPosition, model);
         notifyItemMoved(fromPosition, toPosition);
     }
+    /**
+     * Filter Logic
+     * [END]
+     */
 }

@@ -22,8 +22,6 @@ public class Note {
     }
 
     // Accounting for note of text type
-
-
     public Note(String id, String text, String lastEdit, char type) {
         this.id = id;
         this.text = text;

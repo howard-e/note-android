@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.howard.note"
         minSdkVersion 21
@@ -42,4 +42,12 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.8.3' // required for link-preview
     compile 'com.leocardz:link-preview:1.2.1@aar'
+
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }
