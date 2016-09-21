@@ -56,7 +56,6 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
             case Constants.NOTE_VIDEO:
                 return new VideoNoteViewHolder(inflater.inflate(LAYOUT_NOTE_VIDEO, parent, false));
         }
-        // TODO: Ever a chance to reach null? ~When type is null for note type. Evaluate what to do in that scenario
         return null;
     }
 
