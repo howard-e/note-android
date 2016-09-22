@@ -2,11 +2,14 @@ language: android
 android:
   components:
     - tools
-    - build-tools-24.0.1
+    - build-tools-24.0.2
     - android-24
     - platform-tools
-    - extra-android-support # because I'm use support library
-    - extra-android-m2repository # because I'm use support library
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-24
+    - sys-img-armeabi-v7a-android-24
   licenses:
     - '.+'
 
