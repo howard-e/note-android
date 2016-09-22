@@ -9,7 +9,7 @@ android:
     - addon-google_apis-google-24
     - sys-img-armeabi-v7a-android-24
   script:
-    - gradle build connectedCheck
+    - ./gradlew assembleDebug
   before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   cache:
