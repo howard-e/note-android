@@ -94,7 +94,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         return position;
     }
 
-    private class TextNoteViewHolder extends RecyclerView.ViewHolder {
+    class TextNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.note_text)
         TextView mNoteText;
@@ -116,7 +116,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class PictureNoteViewHolder extends RecyclerView.ViewHolder {
+    class PictureNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.note_text)
         TextView mNoteText;
@@ -141,7 +141,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class LinkNoteViewHolder extends RecyclerView.ViewHolder {
+    class LinkNoteViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.info_wrap)
         LinearLayout infoWrap;
@@ -167,7 +167,7 @@ public class NotePictureAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class VideoNoteViewHolder extends RecyclerView.ViewHolder {
+    class VideoNoteViewHolder extends RecyclerView.ViewHolder {
 
         VideoNoteViewHolder(View itemView) {
             super(itemView);
