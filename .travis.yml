@@ -8,8 +8,8 @@ android:
     - extra-android-m2repository
     - addon-google_apis-google-24
     - sys-img-armeabi-v7a-android-24
-  script:
-    - ./gradlew assembleDebug
+  before_install:
+    - chmod +x gradlew
   before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   cache:
