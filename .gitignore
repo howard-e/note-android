@@ -33,7 +33,7 @@ proguard/
 /app/src/main/res/values/secure-strings.xml
 
 # Android Studio
-/gradle
+# /gradle
 .navigation/
 captures/
 
