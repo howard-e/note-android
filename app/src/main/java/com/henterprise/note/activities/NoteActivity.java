@@ -1,4 +1,4 @@
-package com.howard.note.activities;
+package com.henterprise.note.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,10 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.howard.note.R;
-import com.howard.note.fragments.ArchivedNotesFragment;
-import com.howard.note.fragments.CurrentNotesFragment;
-import com.howard.note.fragments.RemindersFragment;
+import com.henterprise.note.R;
+import com.henterprise.note.fragments.ArchivedNotesFragment;
+import com.henterprise.note.fragments.CurrentNotesFragment;
+import com.henterprise.note.fragments.RemindersFragment;
 
 import java.util.ArrayList;
 import java.util.List;

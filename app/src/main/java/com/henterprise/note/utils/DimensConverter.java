@@ -1,4 +1,4 @@
-package com.howard.note.utils;
+package com.henterprise.note.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

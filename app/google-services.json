@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "490855914190",
+    "firebase_url": "https://note-ca9e7.firebaseio.com",
+    "project_id": "note-ca9e7",
+    "storage_bucket": "note-ca9e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490855914190:android:a6b9279c9c47d212",
+        "android_client_info": {
+          "package_name": "com.howard.note"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490855914190-fbcslar8c0qod2nidplmi4q5gcbuahpb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.howard.note",
+            "certificate_hash": "014C99057BCE56F9BDA81D7FD9E6123B140D301E"
+          }
+        },
+        {
+          "client_id": "490855914190-bb5r2jpr3aaul0kauqvq2m0afb4m0foe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs2NrCHy14WeYjVPnYMTszvTmq4QcVWQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490855914190-bb5r2jpr3aaul0kauqvq2m0afb4m0foe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

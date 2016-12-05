@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.howard.note.activities.NoteActivity">
+    tools:context="com.henterprise.note.activities.NoteActivity">
 
     <!-- 2nd CoordinatorLayout wrapper is a #HACK# to get a clean transition from status bar color to toolbar color with that pesky shadow -->
     <android.support.design.widget.CoordinatorLayout
