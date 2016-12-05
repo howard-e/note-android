@@ -58,4 +58,9 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">italic</item>
     </style>
+
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@color/white</item>
+        <item name="elevation">2dp</item>
+    </style>
 </resources>

@@ -56,7 +56,7 @@ public class CurrentNotesFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_note, menu);
 
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -86,7 +86,8 @@ public class CurrentNotesFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        noteArrayList = DummyNoteContent.getNotes(); // TODO: Investigate why without this line to pull back the full list of content, it was affecting the global arraylist of notes
+        // TODO: Investigate why without the following line to pull back the full list of content, it was affecting the global arraylist of notes
+        noteArrayList = DummyNoteContent.getNotes();
         final ArrayList<Note> filteredModelList = filter(noteArrayList, newText);
         notePictureAdapter.animateTo(filteredModelList);
         mRecyclerView.scrollToPosition(0);

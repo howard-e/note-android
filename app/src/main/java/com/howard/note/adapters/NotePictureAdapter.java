@@ -23,7 +23,8 @@ import butterknife.ButterKnife;
  * @author Howard.
  */
 
-public class NotePictureAdapter extends RecyclerView.Adapter {
+public class
+NotePictureAdapter extends RecyclerView.Adapter {
 
     private final static int LAYOUT_NOTE_TEXT = R.layout.item_note_text;
     private final static int LAYOUT_NOTE_PICTURE = R.layout.item_note_picture;

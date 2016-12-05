@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.howard.note.R;
 
+import butterknife.ButterKnife;
+
 /**
  * @author Howard.
  */
@@ -19,6 +21,7 @@ public class ArchivedNotesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recycler_view, container, false);
+        ButterKnife.bind(this, rootView);
 
         return rootView;
     }

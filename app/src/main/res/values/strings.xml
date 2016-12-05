@@ -5,4 +5,6 @@
     <string name="string_current_notes">Current Notes</string>
     <string name="last_edited_title">Last edited:</string>
     <string name="action_search">Search</string>
+    <string name="string_email">Email</string>
+    <string name="string_reminders">Reminders</string>
 </resources>
