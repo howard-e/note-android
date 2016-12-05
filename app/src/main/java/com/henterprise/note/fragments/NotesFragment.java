@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,10 +22,13 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.henterprise.note.R;
 import com.henterprise.note.adapters.NotePictureAdapter;
 import com.henterprise.note.models.Note;
 import com.henterprise.note.utils.DummyNoteContent;
+import com.henterprise.note.utils.Validator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
@@ -47,6 +51,8 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
     private ArrayList<Note> noteArrayList;
     private View createNoteView;
 
+    DatabaseReference dummyDatabaseRef;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +60,9 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
         ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
         initCreateNoteDialog(inflater);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        dummyDatabaseRef = database.getReference("notes").child("text").child("dummy_id");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -149,7 +158,15 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                EditText titleEText = (EditText) createNoteView.findViewById(R.id.title_edit_text);
+                                EditText descriptionEText = (EditText) createNoteView.findViewById(R.id.description_edit_text);
 
+                                if (Validator.isEmpty(descriptionEText)) {
+                                    // TODO: Notify user that description needs to be filled in
+                                } else {
+                                    dummyDatabaseRef.child("title").setValue(Validator.isEmpty(descriptionEText) ? null : titleEText.getText().toString());
+                                    dummyDatabaseRef.child("description").setValue(descriptionEText.getText().toString());
+                                }
                             }
                         })
                         .setNegativeText("Cancel")
