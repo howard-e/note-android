@@ -1,8 +1,6 @@
 package com.henterprise.note.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,13 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.TextView;
 
 import com.henterprise.note.R;
 import com.henterprise.note.fragments.ArchivedNotesFragment;
-import com.henterprise.note.fragments.CurrentNotesFragment;
-import com.henterprise.note.fragments.RemindersFragment;
+import com.henterprise.note.fragments.NotesFragment;
+import com.henterprise.note.fragments.ReminderNotesFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NoteActivity extends AppCompatActivity implements View.OnClickListener {
+public class NoteActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -33,8 +30,6 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
     TabLayout mTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    @BindView(R.id.fab)
-    FloatingActionButton mFab;
 
     private int[] tabIcons = {
             R.drawable.ic_note_white_24dp,
@@ -52,14 +47,12 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         setupTabIcons();
-
-        mFab.setOnClickListener(this);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CurrentNotesFragment(), getString(R.string.string_current_notes));
-        adapter.addFragment(new RemindersFragment(), getString(R.string.string_reminders));
+        adapter.addFragment(new NotesFragment(), getString(R.string.string_notes));
+        adapter.addFragment(new ReminderNotesFragment(), getString(R.string.string_reminders));
         adapter.addFragment(new ArchivedNotesFragment(), getString(R.string.string_archived_notes));
         viewPager.setAdapter(adapter);
     }
@@ -71,7 +64,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
         // mTabLayout.getTabAt(2).setIcon(tabIcons[2]);
 
         TextView tab1 = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tab1.setText(getString(R.string.string_current_notes));
+        tab1.setText(getString(R.string.string_notes));
         tab1.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[0], 0, 0);
         mTabLayout.getTabAt(0).setCustomView(tab1);
 
@@ -113,15 +106,6 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
         void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab:
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                break;
         }
     }
 }

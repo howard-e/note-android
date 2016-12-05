@@ -1,6 +1,7 @@
 package com.henterprise.note.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -13,11 +14,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.henterprise.note.R;
 import com.henterprise.note.adapters.NotePictureAdapter;
 import com.henterprise.note.models.Note;
 import com.henterprise.note.utils.DummyNoteContent;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 
@@ -28,20 +36,24 @@ import butterknife.ButterKnife;
  * @author Howard.
  */
 
-public class CurrentNotesFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class NotesFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.button_add_note)
+    LinearLayout mAddNoteButton;
 
     private NotePictureAdapter notePictureAdapter;
     private ArrayList<Note> noteArrayList;
+    private View createNoteView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recycler_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_note, container, false);
         ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
+        initCreateNoteDialog(inflater);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -51,7 +63,21 @@ public class CurrentNotesFragment extends Fragment implements SearchView.OnQuery
         notePictureAdapter = new NotePictureAdapter(getContext(), noteArrayList);
         mRecyclerView.setAdapter(notePictureAdapter);
 
+        mAddNoteButton.setOnClickListener(this);
+
         return rootView;
+    }
+
+    private void initCreateNoteDialog(LayoutInflater inflater) {
+        createNoteView = inflater.inflate(R.layout.fragment_create_note, null);
+        MaterialSpinner spinner = (MaterialSpinner) createNoteView.findViewById(R.id.spinner);
+        spinner.setItems("Text", "Picture", "Link", "Video");
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                Toast.makeText(getContext(), "Clicked: " + item, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -105,5 +131,39 @@ public class CurrentNotesFragment extends Fragment implements SearchView.OnQuery
             }
         }
         return filteredModelList;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_add_note:
+                if (createNoteView.getParent() != null)
+                    ((ViewGroup) createNoteView.getParent()).removeView(createNoteView);
+
+                new MaterialStyledDialog.Builder(getContext())
+                        .setTitle("Add a Note!")
+                        .setStyle(Style.HEADER_WITH_TITLE)
+                        .setHeaderColor(R.color.colorPrimary)
+                        .setCustomView(createNoteView)
+                        .setPositiveText("Submit")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                            }
+                        })
+                        .setNegativeText("Cancel")
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .withIconAnimation(true)
+                        .setScrollable(true)
+                        .setCancelable(true)
+                        .show();
+                break;
+        }
     }
 }

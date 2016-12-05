@@ -15,12 +15,12 @@ import butterknife.ButterKnife;
  * @author Howard.
  */
 
-public class RemindersFragment extends Fragment {
+public class ReminderNotesFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recycler_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_note, container, false);
         ButterKnife.bind(this, rootView);
 
         return rootView;
