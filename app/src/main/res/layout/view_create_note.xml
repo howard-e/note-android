@@ -16,9 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="Note Type:" />
+            android:title="Note Type:" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinner"
@@ -43,7 +41,7 @@
         android:layout_height="wrap_content"
         android:hint="Title"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:lines="1"
         android:maxLines="1" />
 

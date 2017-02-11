@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Exsuls ortum, tanquam bi-color capio. Est teres zelus, cesaris. Teres calcaria rare carpseriss fuga est." />
+            android:title="Exsuls ortum, tanquam bi-color capio. Est teres zelus, cesaris. Teres calcaria rare carpseriss fuga est." />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="10dp"
                     android:paddingTop="5dp"
-                    android:text="@string/last_edited_title" />
+                    android:title="@string/last_edited_title" />
 
                 <TextView
                     android:id="@+id/note_last_edit"
@@ -70,7 +70,7 @@
                     android:ellipsize="end"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
-                    android:text="Jul 15, 2016, 3:06pm" />
+                    android:title="Jul 15, 2016, 3:06pm" />
             </RelativeLayout>
 
             <ImageView

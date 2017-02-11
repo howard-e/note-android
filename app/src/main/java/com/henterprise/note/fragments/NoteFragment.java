@@ -8,6 +8,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,12 +23,12 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.henterprise.note.R;
-import com.henterprise.note.adapters.NotePictureAdapter;
+import com.henterprise.note.adapters.NoteAdapter;
 import com.henterprise.note.models.Note;
+import com.henterprise.note.utils.AppConstants;
 import com.henterprise.note.utils.DummyNoteContent;
+import com.henterprise.note.utils.SessionIdentifierGenerator;
 import com.henterprise.note.utils.Validator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -35,23 +36,28 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * @author Howard.
  */
 
-public class NotesFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class NoteFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+
+    private final static String TAG = NoteFragment.class.getSimpleName();
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.button_add_note)
     LinearLayout mAddNoteButton;
 
-    private NotePictureAdapter notePictureAdapter;
+    private NoteAdapter noteAdapter;
     private ArrayList<Note> noteArrayList;
     private View createNoteView;
 
-    DatabaseReference dummyDatabaseRef;
+    private Realm realm;
+
+    //private DatabaseReference dummyDatabaseRef;
 
     @Nullable
     @Override
@@ -61,16 +67,17 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
         setHasOptionsMenu(true);
         initCreateNoteDialog(inflater);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        dummyDatabaseRef = database.getReference("notes").child("text").child("dummy_id");
+        realm = Realm.getDefaultInstance();
+
+        //dummyDatabaseRef = FirebaseDatabase.getInstance().getReference().child("users").child("dummy_id");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         noteArrayList = DummyNoteContent.getNotes();
-        notePictureAdapter = new NotePictureAdapter(getContext(), noteArrayList);
-        mRecyclerView.setAdapter(notePictureAdapter);
+        noteAdapter = new NoteAdapter(getContext(), noteArrayList);
+        mRecyclerView.setAdapter(noteAdapter);
 
         mAddNoteButton.setOnClickListener(this);
 
@@ -101,7 +108,7 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // Do something when collapsed
-                notePictureAdapter.animateTo(noteArrayList);
+                noteAdapter.animateTo(noteArrayList);
                 mRecyclerView.scrollToPosition(0);
                 return true; // Return true to collapse action view
             }
@@ -124,7 +131,7 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
         // TODO: Investigate why without the following line to pull back the full list of content, it was affecting the global arraylist of notes
         noteArrayList = DummyNoteContent.getNotes();
         final ArrayList<Note> filteredModelList = filter(noteArrayList, newText);
-        notePictureAdapter.animateTo(filteredModelList);
+        noteAdapter.animateTo(filteredModelList);
         mRecyclerView.scrollToPosition(0);
         return true;
     }
@@ -134,7 +141,7 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
 
         final ArrayList<Note> filteredModelList = new ArrayList<>();
         for (Note model : models) {
-            final String text = model.getText().toLowerCase();
+            final String text = model.getTitle().toLowerCase();
             if (text.contains(query)) {
                 filteredModelList.add(model);
             }
@@ -164,8 +171,29 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
                                 if (Validator.isEmpty(descriptionEText)) {
                                     // TODO: Notify user that description needs to be filled in
                                 } else {
-                                    dummyDatabaseRef.child("title").setValue(Validator.isEmpty(descriptionEText) ? null : titleEText.getText().toString());
-                                    dummyDatabaseRef.child("description").setValue(descriptionEText.getText().toString());
+                                    final Note note = new Note(
+                                            SessionIdentifierGenerator.nextSessionId(),
+                                            titleEText.getText().toString(),
+                                            descriptionEText.getText().toString(),
+                                            "Today",
+                                            AppConstants.NOTE_TEXT);
+
+                                    while (realm.where(Note.class).equalTo("id", note.getId()).findAll().size() > 0) {
+                                        note.setId(SessionIdentifierGenerator.nextSessionId());
+                                    }
+
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            Note realmNote = realm.copyToRealmOrUpdate(note);
+                                        }
+                                    });
+                                    titleEText.setText("");
+                                    descriptionEText.setText("");
+
+                                    for (Note n : realm.where(Note.class).findAll()) {
+                                        Log.d(TAG, "Saved notes:" + n);
+                                    }
                                 }
                             }
                         })
@@ -178,7 +206,7 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
                         })
                         .withIconAnimation(true)
                         .setScrollable(true)
-                        .setCancelable(true)
+                        .setCancelable(false)
                         .show();
                 break;
         }

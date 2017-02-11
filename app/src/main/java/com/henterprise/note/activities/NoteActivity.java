@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.henterprise.note.R;
 import com.henterprise.note.fragments.ArchivedNotesFragment;
-import com.henterprise.note.fragments.NotesFragment;
+import com.henterprise.note.fragments.NoteFragment;
 import com.henterprise.note.fragments.ReminderNotesFragment;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NotesFragment(), getString(R.string.string_notes));
+        adapter.addFragment(new NoteFragment(), getString(R.string.string_notes));
         adapter.addFragment(new ReminderNotesFragment(), getString(R.string.string_reminders));
         adapter.addFragment(new ArchivedNotesFragment(), getString(R.string.string_archived_notes));
         viewPager.setAdapter(adapter);

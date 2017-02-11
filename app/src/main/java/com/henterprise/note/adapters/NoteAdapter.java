@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.henterprise.note.R;
 import com.henterprise.note.models.Note;
-import com.henterprise.note.utils.Constants;
+import com.henterprise.note.utils.AppConstants;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  */
 
 public class
-NotePictureAdapter extends RecyclerView.Adapter {
+NoteAdapter extends RecyclerView.Adapter {
 
     private final static int LAYOUT_NOTE_TEXT = R.layout.item_note_text;
     private final static int LAYOUT_NOTE_PICTURE = R.layout.item_note_picture;
@@ -35,9 +35,9 @@ NotePictureAdapter extends RecyclerView.Adapter {
     private ArrayList<Note> noteArrayList;
     private ClickListener clickListener;
 
-    private char noteType;
+    private String noteType;
 
-    public NotePictureAdapter(Context context, ArrayList<Note> noteArrayList) {
+    public NoteAdapter(Context context, ArrayList<Note> noteArrayList) {
         this.context = context;
         this.noteArrayList = noteArrayList;
 
@@ -48,13 +48,13 @@ NotePictureAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (noteType) {
-            case Constants.NOTE_TEXT:
+            case AppConstants.NOTE_TEXT:
                 return new TextNoteViewHolder(inflater.inflate(LAYOUT_NOTE_TEXT, parent, false));
-            case Constants.NOTE_PICTURE:
+            case AppConstants.NOTE_PICTURE:
                 return new PictureNoteViewHolder(inflater.inflate(LAYOUT_NOTE_PICTURE, parent, false));
-            case Constants.NOTE_LINK:
+            case AppConstants.NOTE_LINK:
                 return new LinkNoteViewHolder(inflater.inflate(LAYOUT_NOTE_LINK, parent, false));
-            case Constants.NOTE_VIDEO:
+            case AppConstants.NOTE_VIDEO:
                 return new VideoNoteViewHolder(inflater.inflate(LAYOUT_NOTE_VIDEO, parent, false));
         }
         return null;
@@ -62,21 +62,21 @@ NotePictureAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (noteType == Constants.NOTE_TEXT) {
+        if (noteType == AppConstants.NOTE_TEXT) {
             TextNoteViewHolder mHolder = (TextNoteViewHolder) holder;
             final Note note = noteArrayList.get(position);
             mHolder.bind(note);
 
             mHolder.mNoteEditButton.setOnClickListener(clickListener);
             mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
-        } else if (noteType == Constants.NOTE_PICTURE) {
+        } else if (noteType == AppConstants.NOTE_PICTURE) {
             PictureNoteViewHolder mHolder = (PictureNoteViewHolder) holder;
             final Note note = noteArrayList.get(position);
             mHolder.bind(note);
 
             mHolder.mNoteEditButton.setOnClickListener(clickListener);
             mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
-        } else if (noteType == Constants.NOTE_LINK) {
+        } else if (noteType == AppConstants.NOTE_LINK) {
             LinkNoteViewHolder mHolder = (LinkNoteViewHolder) holder;
             final Note note = noteArrayList.get(position);
             mHolder.bind(note);
@@ -112,7 +112,7 @@ NotePictureAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Note note) {
-            mNoteText.setText(note.getText());
+            mNoteText.setText(note.getTitle());
             mNoteLastEdit.setText(note.getLastEdit());
         }
     }
@@ -136,7 +136,7 @@ NotePictureAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Note note) {
-            mNoteText.setText(note.getText());
+            mNoteText.setText(note.getTitle());
             mNotePicture.setImageResource(note.getPicture());
             mNoteLastEdit.setText(note.getLastEdit());
         }
@@ -164,7 +164,7 @@ NotePictureAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Note note) {
-            contentTextView.setText(note.getText());
+            contentTextView.setText(note.getTitle());
         }
     }
 

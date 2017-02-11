@@ -1,40 +1,72 @@
 package com.henterprise.note.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * @author Howard.
  */
 
-public class Note {
+public class Note extends RealmObject {
 
-    private String id, text, lastEdit;
+    @Index
+    @PrimaryKey
+    @Required
+    private String id;
+
+    @Index
+    private String title;
+    private String description;
+
+    private String lastEdit;
     private int picture;
 
-    // 't' = text | 'p' = picture | 'l' = link | 'v' = video
-    private char type;
+    // 't' = title | 'p' = picture | 'l' = link | 'v' = video
+    @Required
+    private String type;
+
+    public Note() {
+    }
 
     // Accounting for note of picture type
-    public Note(String id, String text, String lastEdit, int picture, char type) {
+    public Note(String id, String title, String description, String lastEdit, int picture, String type) {
         this.id = id;
-        this.text = text;
+        this.title = title;
+        this.description = description;
         this.lastEdit = lastEdit;
         this.picture = picture;
         this.type = type;
     }
 
-    // Accounting for note of text type
-    public Note(String id, String text, String lastEdit, char type) {
+    // Accounting for note of title type
+    public Note(String id, String title, String description, String lastEdit, String type) {
         this.id = id;
-        this.text = text;
+        this.title = title;
+        this.description = description;
         this.lastEdit = lastEdit;
         this.type = type;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLastEdit() {
@@ -45,7 +77,15 @@ public class Note {
         return picture;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "id:" + id
+                + "|title:" + title
+                + "|description:" + description
+                + "|type:" + type;
     }
 }
