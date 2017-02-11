@@ -78,7 +78,7 @@ public class NotesFragment extends Fragment implements View.OnClickListener, Sea
     }
 
     private void initCreateNoteDialog(LayoutInflater inflater) {
-        createNoteView = inflater.inflate(R.layout.fragment_create_note, null);
+        createNoteView = inflater.inflate(R.layout.view_create_note, null);
         MaterialSpinner spinner = (MaterialSpinner) createNoteView.findViewById(R.id.spinner);
         spinner.setItems("Text", "Picture", "Link", "Video");
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
