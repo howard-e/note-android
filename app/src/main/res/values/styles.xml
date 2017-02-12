@@ -15,9 +15,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base" />
+    <style name="NoteMaterialTheme" parent="NoteMaterialTheme.Base" />
 
-    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="NoteMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -25,59 +25,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MainNoteText" parent="android:Widget.TextView">
-        <item name="android:textSize">16sp</item>
+    <style name="DefaultTextStyleBase" parent="android:Widget.TextView">
         <item name="android:textColor">@color/white</item>
-        <item name="android:shadowColor">@color/black</item>
-        <item name="android:shadowDx">3.0</item>
-        <item name="android:shadowDy">3.0</item>
-        <item name="android:shadowRadius">3.0</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:gravity">left</item>
+        <item name="android:shadowDx">2.0</item>
+        <item name="android:shadowDy">2.0</item>
+        <item name="android:shadowRadius">2.0</item>
     </style>
 
-    <style name="SecondaryNoteText" parent="android:Widget.TextView">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:shadowColor">@color/black</item>
-        <item name="android:shadowDx">3.0</item>
-        <item name="android:shadowDy">3.0</item>
-        <item name="android:shadowRadius">3.0</item>
+    <style name="MainText" parent="DefaultTextStyleBase">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="MiscNoteText" parent="android:Widget.TextView">
+    <style name="SecondaryText" parent="DefaultTextStyleBase">
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:shadowColor">@color/black</item>
-        <item name="android:shadowDx">3.0</item>
-        <item name="android:shadowDy">3.0</item>
-        <item name="android:shadowRadius">3.0</item>
+    </style>
+
+    <style name="MiscText" parent="DefaultTextStyleBase">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">italic</item>
-    </style>
-
-    <style name="PrimaryText" parent="android:Widget.TextView">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:shadowColor">@color/white</item>
-        <item name="android:shadowDx">3.0</item>
-        <item name="android:shadowDy">3.0</item>
-        <item name="android:shadowRadius">3.0</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="SecondaryText" parent="android:Widget.TextView">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:shadowColor">@color/white</item>
-        <item name="android:shadowDx">3.0</item>
-        <item name="android:shadowDy">3.0</item>
-        <item name="android:shadowRadius">3.0</item>
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
@@ -86,10 +55,11 @@
     </style>
 
     <style name="NoteCardStyle" parent="CardView">
+        <item name="android:layout_marginBottom">5dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="cardCornerRadius">0dp</item>
-        <item name="cardElevation">2dp</item>
+        <item name="cardElevation">1dp</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardUseCompatPadding">false</item>
     </style>

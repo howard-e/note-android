@@ -17,12 +17,11 @@ public class AppController extends Application {
 
         // SETUP of SDKs -- ## --
         Realm.init(this);
-        // SETUP of SDKs -- ## --
-
-        RealmConfiguration config = new RealmConfiguration.Builder().
-                deleteRealmIfMigrationNeeded()
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
+        // SETUP of SDKs -- ## --
     }
 
     /**

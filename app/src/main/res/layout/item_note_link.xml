@@ -54,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/title"
-                    style="@style/MainNoteText"
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -62,7 +62,7 @@
 
                 <TextView
                     android:id="@+id/url"
-                    style="@style/MiscNoteText"
+                    style="@style/MiscText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -70,7 +70,7 @@
 
                 <TextView
                     android:id="@+id/description"
-                    style="@style/SecondaryNoteText"
+                    style="@style/SecondaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"

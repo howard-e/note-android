@@ -62,24 +62,29 @@ NoteAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (noteType == AppConstants.NOTE_TEXT) {
-            TextNoteViewHolder mHolder = (TextNoteViewHolder) holder;
-            final Note note = noteArrayList.get(position);
-            mHolder.bind(note);
-
-            mHolder.mNoteEditButton.setOnClickListener(clickListener);
-            mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
-        } else if (noteType == AppConstants.NOTE_PICTURE) {
-            PictureNoteViewHolder mHolder = (PictureNoteViewHolder) holder;
-            final Note note = noteArrayList.get(position);
-            mHolder.bind(note);
-
-            mHolder.mNoteEditButton.setOnClickListener(clickListener);
-            mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
-        } else if (noteType == AppConstants.NOTE_LINK) {
-            LinkNoteViewHolder mHolder = (LinkNoteViewHolder) holder;
-            final Note note = noteArrayList.get(position);
-            mHolder.bind(note);
+        switch (noteType) {
+            case AppConstants.NOTE_TEXT: {
+                TextNoteViewHolder mHolder = (TextNoteViewHolder) holder;
+                final Note note = noteArrayList.get(position);
+                mHolder.bind(note);
+                mHolder.mNoteEditButton.setOnClickListener(clickListener);
+                mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
+                break;
+            }
+            case AppConstants.NOTE_PICTURE: {
+                PictureNoteViewHolder mHolder = (PictureNoteViewHolder) holder;
+                final Note note = noteArrayList.get(position);
+                mHolder.bind(note);
+                mHolder.mNoteEditButton.setOnClickListener(clickListener);
+                mHolder.mNoteArchiveButton.setOnClickListener(clickListener);
+                break;
+            }
+            case AppConstants.NOTE_LINK: {
+                LinkNoteViewHolder mHolder = (LinkNoteViewHolder) holder;
+                final Note note = noteArrayList.get(position);
+                mHolder.bind(note);
+                break;
+            }
         }
     }
 

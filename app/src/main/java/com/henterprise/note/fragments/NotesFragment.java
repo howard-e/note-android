@@ -8,7 +8,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,9 +41,9 @@ import io.realm.Realm;
  * @author Howard.
  */
 
-public class NoteFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class NotesFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private final static String TAG = NoteFragment.class.getSimpleName();
+    private final static String TAG = NotesFragment.class.getSimpleName();
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -57,30 +56,24 @@ public class NoteFragment extends Fragment implements View.OnClickListener, Sear
 
     private Realm realm;
 
-    //private DatabaseReference dummyDatabaseRef;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note, container, false);
         ButterKnife.bind(this, rootView);
-        setHasOptionsMenu(true);
+
         initCreateNoteDialog(inflater);
-
-        realm = Realm.getDefaultInstance();
-
-        //dummyDatabaseRef = FirebaseDatabase.getInstance().getReference().child("users").child("dummy_id");
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        noteArrayList = DummyNoteContent.getNotes();
-        noteAdapter = new NoteAdapter(getContext(), noteArrayList);
-        mRecyclerView.setAdapter(noteAdapter);
+        initNotes();
 
         mAddNoteButton.setOnClickListener(this);
-
         return rootView;
     }
 
@@ -94,6 +87,14 @@ public class NoteFragment extends Fragment implements View.OnClickListener, Sear
                 Toast.makeText(getContext(), "Clicked: " + item, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void initNotes() {
+        noteArrayList = DummyNoteContent.getNotes();
+        noteArrayList.addAll(realm.where(Note.class).findAll());
+        noteAdapter = new NoteAdapter(getContext(), noteArrayList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(noteAdapter);
     }
 
     @Override
@@ -165,16 +166,16 @@ public class NoteFragment extends Fragment implements View.OnClickListener, Sear
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                EditText titleEText = (EditText) createNoteView.findViewById(R.id.title_edit_text);
-                                EditText descriptionEText = (EditText) createNoteView.findViewById(R.id.description_edit_text);
+                                EditText titleInput = (EditText) createNoteView.findViewById(R.id.title_edit_text);
+                                EditText descriptionInput = (EditText) createNoteView.findViewById(R.id.description_edit_text);
 
-                                if (Validator.isEmpty(descriptionEText)) {
+                                if (Validator.isEmpty(descriptionInput)) {
                                     // TODO: Notify user that description needs to be filled in
                                 } else {
                                     final Note note = new Note(
                                             SessionIdentifierGenerator.nextSessionId(),
-                                            titleEText.getText().toString(),
-                                            descriptionEText.getText().toString(),
+                                            titleInput.getText().toString(),
+                                            descriptionInput.getText().toString(),
                                             "Today",
                                             AppConstants.NOTE_TEXT);
 
@@ -188,12 +189,11 @@ public class NoteFragment extends Fragment implements View.OnClickListener, Sear
                                             Note realmNote = realm.copyToRealmOrUpdate(note);
                                         }
                                     });
-                                    titleEText.setText("");
-                                    descriptionEText.setText("");
+                                    titleInput.setText("");
+                                    descriptionInput.setText("");
 
-                                    for (Note n : realm.where(Note.class).findAll()) {
-                                        Log.d(TAG, "Saved notes:" + n);
-                                    }
+                                    //for (Note n : realm.where(Note.class).findAll())
+                                    //Log.d(TAG, "Saved notes:" + n);
                                 }
                             }
                         })
@@ -206,7 +206,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener, Sear
                         })
                         .withIconAnimation(true)
                         .setScrollable(true)
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .show();
                 break;
         }
